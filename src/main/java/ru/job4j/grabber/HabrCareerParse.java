@@ -18,6 +18,12 @@ public class HabrCareerParse {
     public static final String SUFFIX = "&q=Java%20developer&type=all";
     private static final DateTimeParser DATE_TIME_PARSER = new HabrCareerDateTimeParser();
 
+    private String retrieveDescription(String link) throws IOException {
+        Connection connection = Jsoup.connect(link);
+        Document document = connection.get();
+        return document.select(".vacancy-description__text").text();
+    }
+
     public static void main(String[] args) throws IOException {
         for (int pageNumber = 1; pageNumber < 6; pageNumber++) {
             String fullLink = "%s%s%d%s".formatted(SOURCE_LINK, PREFIX, pageNumber, SUFFIX);
