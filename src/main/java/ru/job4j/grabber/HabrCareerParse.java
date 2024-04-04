@@ -19,19 +19,20 @@ public class HabrCareerParse {
     private static final DateTimeParser DATE_TIME_PARSER = new HabrCareerDateTimeParser();
 
     public static void main(String[] args) throws IOException {
-        int pageNumber = 1;
-        String fullLink = "%s%s%d%s".formatted(SOURCE_LINK, PREFIX, pageNumber, SUFFIX);
-        Connection connection = Jsoup.connect(fullLink);
-        Document document = connection.get();
-        Elements rows = document.select(".vacancy-card__inner");
-        rows.forEach(row -> {
-            Element titleElement = row.select(".vacancy-card__title").first();
-            Element linkElement = titleElement.child(0);
-            Element dateElement = row.select(".basic-date").first();
-            String vacancyName = titleElement.text();
-            String link = String.format("%s%s", SOURCE_LINK, linkElement.attr("href"));
-            LocalDateTime formattedDate = DATE_TIME_PARSER.parse(dateElement.attr("datetime"));
-            System.out.printf("%s %s %s%n", vacancyName, link, formattedDate);
-        });
+        for (int pageNumber = 1; pageNumber < 6; pageNumber++) {
+            String fullLink = "%s%s%d%s".formatted(SOURCE_LINK, PREFIX, pageNumber, SUFFIX);
+            Connection connection = Jsoup.connect(fullLink);
+            Document document = connection.get();
+            Elements rows = document.select(".vacancy-card__inner");
+            rows.forEach(row -> {
+                Element titleElement = row.select(".vacancy-card__title").first();
+                Element linkElement = titleElement.child(0);
+                Element dateElement = row.select(".basic-date").first();
+                String vacancyName = titleElement.text();
+                String link = String.format("%s%s", SOURCE_LINK, linkElement.attr("href"));
+                LocalDateTime formattedDate = DATE_TIME_PARSER.parse(dateElement.attr("datetime"));
+                System.out.printf("%s %s %s%n", vacancyName, link, formattedDate);
+            });
+        }
     }
 }
