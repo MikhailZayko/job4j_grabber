@@ -123,7 +123,7 @@
         <artifactId>liquibase-maven-plugin</artifactId>
         <version>4.23.1</version>
         <configuration>
-          <propertyFile>src/main/resources/rabbit.properties</propertyFile>
+          <propertyFile>src/main/resources/app.properties</propertyFile>
         </configuration>
       </plugin>
     </plugins>
